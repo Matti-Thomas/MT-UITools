@@ -1,6 +1,12 @@
 #include <stdio.h>
-#include "mparts.h"
+#include "mparts.h"  
+/* 文件虽然可以编译成一个图片查看器，但写的随意，只有100多行代码
+ * 只是简单展示下编写的UI模块功能
+ * 可以当成一个测试功能的文件
+ * 原本文件名就叫test.cpp
+ */
 constexpr int max_char_num=100;  //储存图片路径的最长大小
+// 从文件管理器加载图片
 void open_img(std::shared_ptr<ViewGlyph> v){
     char img_path[max_char_num];
     auto file=popen("zenity --file-selection --title=\"选择图片\" 2> /dev/null","r");
@@ -11,7 +17,9 @@ void open_img(std::shared_ptr<ViewGlyph> v){
     auto img=make_mglyph<Image>(img_path);
     v->bind_mg(img); 
 }
-void set_dropitems(Mwindow& wdw, std::array<std::pair<const char*,const wchar_t*>,4>& its,std::shared_ptr<Row>m, int idx){
+
+// 单纯的将一些临时的重复操作抽取成函数暂时使用下，所以函数参数很丑陋
+void set_dropitems(Mwindow& wdw, const std::array<std::pair<const char*,const wchar_t*>,4>& its,std::shared_ptr<Row>m, int idx){
      for(auto p:its){
           auto drop_item= make_mglyph<Row>(200,36,BLUE_ONE);
           drop_item->setPadding(LEFT,12);
@@ -34,13 +42,16 @@ void set_dropitems(Mwindow& wdw, std::array<std::pair<const char*,const wchar_t*
 int main(){
      envirInital();  // 初始化
      Mwindow wdw("MViewer",200,200,1500,1000);   // 创建窗口
+     // 选择需要监听的输入事件
      wdw.listen(FILE_DROP);
      wdw.listen(SCROLL);
      wdw.listen(KEYBORD);
-     //wdw.listen(INPUT);
+     wdw.listen(INPUT);
+     // 也可以取消监听 wdw.disable_listen(KEYBORD);
      auto mct=make_mglyph<Mcontent>(wdw,WHITE_ONE); //绑定上下文画布到窗口  
-     mct->set_layout(alignTop);
-     //wdw.disable_listen(KEYBORD);
+     mct->set_layout(alignTop); 
+     // 生成图元的工厂函数，所有类型图元
+     // 包括派生自基本图元的用户自定义图元类型均由其统一生成
      auto bgptr=make_mglyph<BoxMglyph<MsliderView>>(wdw,1200,900,20,60);
      addEventHandler(wdw,FILE_DROP,[bgptr](Mwindow& wd){
           auto img=make_mglyph<Image>(wd.get_drop_file());
