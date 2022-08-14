@@ -15,7 +15,9 @@
 
 ---
 ##图片示例
->Mviewer的截图，随便写的代码，只是展示一下UI模块的功能
+>Mviewer的截图，随便写的代码，只是展示一下UI模块的功能，
+> 使用GCC12.1编译，运行于Linux centos7 gnome桌面环境。
+> (如果图片在国内网络下无法显示，请直接查看本仓库image文件夹)
 
 ![Mviewer截图1](image/屏幕截图1.png)
 ![Mviewer截图1](image/屏幕截图3.png)
@@ -23,15 +25,15 @@
 ![Mviewer截图1](image/屏幕截图4.png)
 ![Mviewer截图1](image/屏幕截图5.png)
 ![Mviewer截图1](image/屏幕截图8.png)
-
+---
 ##依赖项
 这些第3方库的文件放置在third_lib_h和third_lib文件夹，编译时确保文件夹在默认库搜索路径中
 >- GLFW——提供OpenGL渲染上下文及简单窗口管理，跨平台支持
 >- glm——头文件，渲染用到的矩阵变换运算以及与GLSL(着色器语言)较一致的类型表示
 >- stb_image——一个小巧的头文件，从不同格式的图片文件读取数据
->- freetype2——仅包含头文件的库，从不同格式的字体文件读取数据
+>- freetype2——从不同格式的字体文件读取数据的流行库，后续考虑用更小巧的stb_truetype.h替代
 >- X Window环境——大多数Linux发行版的默认桌面环境
->- OpenGL开发环境——见OpenGL官网，有详细说明  
+>- OpenGL开发环境——见OpenGL官网，有详细说明，使用的OpenGL规范为3.3版本  
 ---
 ## 编译
 暂时没去了解makefile和配置脚本的写法，只能用最原始的方法编译，将仓库里的.cpp和.c文件加上，再链接动态库就OK
@@ -51,4 +53,4 @@ mprogram.cpp mglyph.cpp glad.c -lglfw3 -lGL -lX11 -lpthread  -ldl -lfreetype
 ---
 
 ## License
->本项目使用GNU LGPLv2 协议，请遵守
+>本项目使用GNU LGPLv2 协议
